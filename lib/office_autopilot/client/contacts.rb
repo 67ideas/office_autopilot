@@ -107,6 +107,7 @@ module OfficeAutopilot
       def xml_for_contact(options)
         attrs = {}
         id = options.delete('id')
+        tags = options.delete('tags')
         attrs[:id] = id if id
 
         xml = Builder::XmlMarkup.new
@@ -117,6 +118,10 @@ module OfficeAutopilot
                 xml.field(value, :name => field)
               end
             end
+          end
+
+          xml.Group_Tag(:name => 'Sequences and Tags') do
+            xml.field("*/*#{tags.join('*/*')}*/*", :name => 'Contact Tags')
           end
         end
       end
